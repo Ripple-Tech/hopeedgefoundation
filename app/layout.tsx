@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Oswald, Open_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import InstallPrompt from "@/components/InstallPrompt";
 
 // Display font for headings — matches the NGO brand
 const oswald = Oswald({
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
     title: "HopeEdge Foundation",
     description:
       "Empowering communities through education, safety, and opportunity — across 40+ countries.",
-    url: "https://hopeedgefoundation.org",
+    url: "https://hopeedgefoundation.vercel.app",
     siteName: "HopeEdge Foundation",
     images: [
       {
@@ -112,6 +113,7 @@ export default function RootLayout({
           <div className="max-w-[1440px] mx-auto w-full">
             {children}
           </div>
+          <InstallPrompt />
         </main>
       </body>
     </html>
