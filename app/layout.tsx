@@ -29,9 +29,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "HopeEdge Foundation | Empowering Communities Worldwide",
+  title: "Rigar KariyaFoundation | Empowering Communities Worldwide",
   description:
-    "HopeEdge Foundation works across 40+ countries to provide education, combat gender violence, and build resilient communities — one family at a time.",
+    "Rigar KariyaFoundation works across 40+ countries to provide education, combat gender violence, and build resilient communities — one family at a time.",
 
   icons: {
     icon: [
@@ -45,17 +45,17 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "HopeEdge Foundation",
+    title: "Rigar KariyaFoundation",
     description:
       "Empowering communities through education, safety, and opportunity — across 40+ countries.",
     url: "https://hopeedgefoundation.vercel.app",
-    siteName: "HopeEdge Foundation",
+    siteName: "Rigar KariyaFoundation",
     images: [
       {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "HopeEdge Foundation",
+        alt: "Rigar KariyaFoundation",
       },
     ],
     locale: "en_US",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "HopeEdge Foundation",
+    title: "Rigar KariyaFoundation",
     description:
       "Empowering communities through education, safety, and opportunity worldwide.",
     images: ["/logo.png"],
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     "gender violence",
     "humanitarian",
     "volunteer",
-    "HopeEdge Foundation",
+    "Rigar KariyaFoundation",
     "global charity",
   ],
 };

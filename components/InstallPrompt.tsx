@@ -126,7 +126,7 @@ export default function InstallPrompt() {
                       App Installed!
                     </h3>
                     <p className="text-sm leading-relaxed" style={{ color: "#d7cfff", fontFamily: "Open Sans, sans-serif" }}>
-                      HopeEdge Foundation is now on your home screen. Thank you for joining the mission.
+                      Rigar KariyaFoundation is now on your home screen. Thank you for joining the mission.
                     </p>
                   </motion.div>
                 ) : (

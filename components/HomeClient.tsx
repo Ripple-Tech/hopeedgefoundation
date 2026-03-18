@@ -160,7 +160,7 @@ function Navbar({ onVolunteer }: { onVolunteer: () => void }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-full ">
-            <Image src="/logo.png" alt="HopeEdge Logo" width={46} height={46} />
+            <Image src="/logo.png" alt="Rigar KariyaLogo" width={46} height={46} />
           </div>
           <div>
             <span className="font-oswald text-lg tracking-[0.15em] uppercase" style={{ color: "#ffffff" }}>
@@ -299,13 +299,15 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
             className="my-6 h-px w-24" style={{ background: "rgba(255,255,255,0.2)" }} />
 
           <motion.p
-            variants={fadeUp} initial="hidden" animate="show" custom={3}
-            className="text-base leading-relaxed max-w-md"
-            style={{ color: "#d7cfff", fontFamily: "'Open Sans', sans-serif" }}
-          >
-            HopeEdge Foundation works across 40+ countries to provide education,
-            combat gender violence, and build resilient communities — one family at a time.
-          </motion.p>
+  variants={fadeUp} initial="hidden" animate="show" custom={3}
+  className="text-base leading-relaxed max-w-md"
+  style={{ color: "#d7cfff", fontFamily: "'Open Sans', sans-serif" }}
+>
+  Rigar Kariya Gender Empowerment Foundation (RKGEF) is a registered non-governmental,
+  non-profit organization breaking the silence on gender violence, advancing menstrual
+  health, and empowering women through education, legal awareness, and economic support —
+  one community at a time.
+</motion.p>
 
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={4}
             className="mt-10 flex flex-wrap gap-4">
@@ -328,9 +330,9 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={5}
             className="mt-14 flex gap-10">
             {[
-              { val: "40+", label: "Countries" },
-              { val: "2M+", label: "Lives Impacted" },
-              { val: "500K", label: "Volunteers" },
+              { val: "4+", label: "Countries" },
+              { val: "5000+", label: "Lives Impacted" },
+              { val: "200+", label: "Volunteers" },
             ].map(({ val, label }) => (
               <div key={label}>
                 <div className="font-oswald text-3xl tracking-tight" style={{ color: "#58d98c" }}>{val}</div>
@@ -349,7 +351,7 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
           <div className="relative overflow-hidden rounded-2xl">
             <img
               src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/Woman_Landing.png"
-              alt="HopeEdge volunteer"
+              alt="Rigar Kariyavolunteer"
               className="w-full object-cover"
             />
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(19,17,30,0.5), transparent)" }} />
@@ -366,7 +368,7 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
                 style={{ backgroundColor: "rgba(88,217,140,0.15)", color: "#58d98c" }}>🌍</div>
               <div>
                 <div className="text-sm font-semibold" style={{ color: "#ffffff" }}>Global Reach</div>
-                <div className="text-xs" style={{ color: "#a89fd4" }}>Active in 40+ nations</div>
+                <div className="text-xs" style={{ color: "#a89fd4" }}>Active in 4+ nations</div>
               </div>
             </div>
           </motion.div>
@@ -390,7 +392,7 @@ function About() {
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={0}>
           <div className="overflow-hidden rounded-2xl border border-[#3d3d69]">
             <img
-              src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/Fotos_04.jpg"
+              src="/women.jpg"
               alt="Our team"
               className="w-full object-cover hover:scale-105 transition-transform duration-700"
             />
@@ -405,31 +407,39 @@ function About() {
           </motion.div>
 
           <motion.h2 variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={2}
-            className="font-oswald text-4xl md:text-5xl font-normal uppercase leading-tight mb-4 tracking-wide">
-            <span style={{ color: "#ffffff" }}>Our Force,</span><br />
-            <span style={{ color: "#d7cfff" }}>Our Purpose</span>
+            className="font-oswald text-3xl md:text-3xl font-normal uppercase leading-tight mb-4 tracking-wide">
+            <span style={{ color: "#ffffff" }}>Our Goals,</span><br />
           </motion.h2>
 
-          <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={3}
-            className="h-0.5 w-16 mb-6" style={{ backgroundColor: "rgba(215,207,255,0.4)" }} />
-
+        
           <motion.p variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={4}
             className="leading-relaxed mb-5 text-sm"
             style={{ color: "#d7cfff", fontFamily: "'Open Sans', sans-serif" }}>
-            HopeEdge Foundation was founded on the belief that every person — regardless of gender, geography, or circumstance — deserves access to safety, education, and opportunity. Since 2004, we've worked tirelessly with communities to address root causes of inequality.
-          </motion.p>
+           To promote dignity, wellbeing, and empowerment among vulnerable populations through focused and sustainable social interventions.
+            </motion.p>
+
+<motion.h2 variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={2}
+            className="font-oswald text-3xl md:text-3xl font-normal uppercase leading-tight mb-4 tracking-wide">
+            <span style={{ color: "#d7cfff" }}>Our Mission</span>
+          </motion.h2>
 
           <motion.p variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={5}
             className="leading-relaxed mb-8 text-sm"
             style={{ color: "#d7cfff", fontFamily: "'Open Sans', sans-serif" }}>
-            Our multidisciplinary team of advocates, educators, and social workers partner with local organizations globally — creating programs that are community-led, culturally sensitive, and measurably impactful.
-          </motion.p>
+           To promote social wellbeing through phased, community-driven interventions that address critical issues affecting women, girls, and vulnerable populations, beginning with priority needs and gradually expanding to achieve lasting impact.
+            </motion.p>
 
-          <motion.button variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={6}
-            className="rounded-full bg-[#58d98c] px-8 py-3 text-sm font-bold tracking-[0.25em] uppercase hover:bg-[#3dbf76] transition-colors"
-            style={{ color: "#13111e" }}>
-            Know More
-          </motion.button>
+         <motion.h2 variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={2}
+            className="font-oswald text-3xl md:text-3xl font-normal uppercase leading-tight mb-4 tracking-wide">
+            <span style={{ color: "#d7cfff" }}>Our Vision</span>
+          </motion.h2>
+
+          <motion.p variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={5}
+            className="leading-relaxed mb-8 text-sm"
+            style={{ color: "#d7cfff", fontFamily: "'Open Sans', sans-serif" }}>
+           society where vulnerable individuals and communities live with dignity, good health, equal opportunities, and sustainable support systems.
+             </motion.p>
+
         </div>
       </div>
     </section>
@@ -752,7 +762,7 @@ function Footer() {
           <p className="font-oswald text-base tracking-[0.2em] uppercase mb-3" style={{ color: "#ffffff" }}>About Us</p>
           <div className="h-px mb-4" style={{ backgroundColor: "rgba(255,255,255,0.2)" }} />
           <p className="text-xs leading-relaxed" style={{ color: "#d7cfff", fontFamily: "'Open Sans', sans-serif" }}>
-            HopeEdge Foundation is a global NGO committed to empowering communities through education, healthcare, and social justice programs.
+            Rigar KariyaFoundation is a global NGO committed to empowering communities through education, healthcare, and social justice programs.
           </p>
         </motion.div>
 
@@ -822,10 +832,10 @@ function Footer() {
             <span style={{ color: "#13111e", fontWeight: 700, fontSize: 8 }}>HE</span>
           </div>
           <span className="font-oswald text-sm tracking-widest uppercase" style={{ color: "#ffffff" }}>
-            HopeEdge Foundation
+            Rigar KariyaFoundation
           </span>
         </div>
-        <p className="text-xs" style={{ color: "#a89fd4" }}>© 2025 HopeEdge Foundation. All rights reserved.</p>
+        <p className="text-xs" style={{ color: "#a89fd4" }}>© 2025 Rigar KariyaFoundation. All rights reserved.</p>
       </div>
     </footer>
   );
