@@ -762,7 +762,7 @@ function Footer() {
           <p className="font-oswald text-base tracking-[0.2em] uppercase mb-3" style={{ color: "#ffffff" }}>About Us</p>
           <div className="h-px mb-4" style={{ backgroundColor: "rgba(255,255,255,0.2)" }} />
           <p className="text-xs leading-relaxed" style={{ color: "#d7cfff", fontFamily: "'Open Sans', sans-serif" }}>
-            Rigar KariyaFoundation is a global NGO committed to empowering communities through education, healthcare, and social justice programs.
+            Rigar Kariya Foundation is a global NGO committed to empowering communities through education, healthcare, and social justice programs.
           </p>
         </motion.div>
 
@@ -832,10 +832,10 @@ function Footer() {
             <span style={{ color: "#13111e", fontWeight: 700, fontSize: 8 }}>HE</span>
           </div>
           <span className="font-oswald text-sm tracking-widest uppercase" style={{ color: "#ffffff" }}>
-            Rigar KariyaFoundation
+            Rigar Kariya Foundation
           </span>
         </div>
-        <p className="text-xs" style={{ color: "#a89fd4" }}>© 2025 Rigar KariyaFoundation. All rights reserved.</p>
+        <p className="text-xs" style={{ color: "#a89fd4" }}>© 2025 Rigar Kariya Foundation. All rights reserved.</p>
       </div>
     </footer>
   );
