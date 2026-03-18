@@ -164,7 +164,7 @@ function Navbar({ onVolunteer }: { onVolunteer: () => void }) {
           </div>
           <div>
             <span className="font-oswald text-lg tracking-[0.15em] uppercase" style={{ color: "#ffffff" }}>
-              HopeEdge
+              Rigar Kariya
             </span>
             <span className="block text-[9px] tracking-[0.3em] uppercase leading-none" style={{ color: "#a89fd4" }}>
               Foundation
@@ -274,7 +274,7 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
         <div className="absolute left-1/4 bottom-0 h-[400px] w-[400px] translate-y-1/2 rounded-full bg-[#58d98c]/5 blur-[100px]" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-32 grid md:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-30 md:py-30 lg:py-20 grid md:grid-cols-2 gap-12 items-center">
         <div>
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}
             className="mb-6 inline-flex items-center gap-3">
@@ -288,11 +288,11 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
             variants={fadeUp} initial="hidden" animate="show" custom={1}
             className="font-oswald text-5xl md:text-7xl font-normal leading-none tracking-tight uppercase mb-4"
           >
-            <span style={{ color: "#ffffff" }}>Change</span>
+            <span style={{ color: "#ffffff" }}>RIGAR KARIYA</span>
             <br />
-            <span style={{ color: "#d7cfff" }}>Starts</span>
+            <span style={{ color: "#d7cfff" }}>GENDER</span>
             <br />
-            <span style={{ color: "transparent", WebkitTextStroke: "2px #58d98c" }}>With You</span>
+            <span style={{ color: "transparent", WebkitTextStroke: "2px #58d98c" }}>EMPOWERMENT PROGRAM</span>
           </motion.h1>
 
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2}
@@ -341,7 +341,7 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
         </div>
 
         <motion.div
-          className="relative hidden md:block"
+          className="relative "
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
