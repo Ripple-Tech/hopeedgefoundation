@@ -51,6 +51,14 @@ function useScrollIn() {
   return { ref, inView };
 }
 
+// Shared scroll helper used everywhere
+function scrollTo(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.scrollY - 80;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
 // ── Modal / Volunteer Form ────────────────────────────────────────────────────
 function VolunteerModal({ onClose }: { onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
@@ -145,87 +153,194 @@ function Navbar({ onVolunteer }: { onVolunteer: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Scroll-aware background
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  const links = ["About", "Programs", "Impact", "Contact"];
+  // Auto-close drawer on resize to desktop
+  useEffect(() => {
+    const onResize = () => { if (window.innerWidth >= 768) setMenuOpen(false); };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // Close menu + scroll — 50ms delay lets exit animation start first
+  const handleNavClick = (id: string) => {
+    setMenuOpen(false);
+    setTimeout(() => scrollTo(id), 50);
+  };
+
+  const links = [
+    { label: "About",    id: "about"    },
+    { label: "Programs", id: "programs" },
+    { label: "Impact",   id: "impact"   },
+    { label: "Contact",  id: "contact"  },
+  ];
 
   return (
-    <motion.nav
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? "theme-nav-scrolled" : ""}`}
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full">
-            <Image src="/logo.png" alt="RKGEF Logo" width={46} height={46} />
-          </div>
-          <div>
-            <span className="font-oswald text-lg tracking-[0.15em] uppercase theme-text-main">Rigar Kariya</span>
-            <span className="block text-[9px] tracking-[0.25em] uppercase leading-none theme-text-muted">
-              Gender Empowerment Foundation
-            </span>
-          </div>
-        </div>
+    <>
+      {/* ── Fixed navbar bar ── */}
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? "theme-nav-scrolled" : ""}`}
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
 
-        <ul className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <li key={l}>
-              <a href={`#${l.toLowerCase()}`}
-                className="text-xs tracking-[0.2em] uppercase hover:text-[#58d98c] transition-colors theme-text-sub">
-                {l}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="hidden md:flex items-center gap-3">
-          <ThemeToggle />
-          <button onClick={onVolunteer}
-            className="rounded-full border border-[#58d98c] px-5 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all duration-300">
-            Volunteer
-          </button>
-          <button className="rounded-full bg-[#58d98c] px-5 py-2 text-xs tracking-widest font-bold uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors">
-            Donate
-          </button>
-        </div>
-
-        <div className="md:hidden flex items-center gap-3">
-          <ThemeToggle />
-          <button className="theme-text-main" onClick={() => setMenuOpen(!menuOpen)}>
-            <div className="space-y-1.5">
-              {[0, 1, 2].map((i) => (
-                <span key={i} className="block h-0.5 w-6 bg-current transition-all" />
-              ))}
+          {/* Logo */}
+          <button
+            onClick={() => handleNavClick("home")}
+            className="flex items-center gap-3 bg-transparent border-none cursor-pointer p-0 text-left"
+          >
+            <Image src="/logo.png" alt="RKGEF Logo" width={46} height={46} className="rounded-full" />
+            <div>
+              <span className="block font-oswald text-lg tracking-[0.15em] uppercase theme-text-main">
+                Rigar Kariya
+              </span>
+              <span className="block text-[9px] tracking-[0.25em] uppercase leading-none theme-text-muted">
+                Gender Empowerment Foundation
+              </span>
             </div>
           </button>
-        </div>
-      </div>
 
+          {/* Desktop links */}
+          <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
+            {links.map(({ label, id }) => (
+              <li key={id}>
+                <button
+                  onClick={() => handleNavClick(id)}
+                  className="text-xs tracking-[0.2em] uppercase hover:text-[#58d98c] transition-colors theme-text-sub bg-transparent border-none cursor-pointer p-0"
+                >
+                  {label}
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          {/* Desktop CTAs */}
+          <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={onVolunteer}
+              className="rounded-full border border-[#58d98c] px-5 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all duration-300"
+            >
+              Volunteer
+            </button>
+            <button className="rounded-full bg-[#58d98c] px-5 py-2 text-xs tracking-widest font-bold uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors">
+              Donate
+            </button>
+          </div>
+
+          {/* Mobile: theme + animated hamburger */}
+          <div className="md:hidden flex items-center gap-4">
+            <ThemeToggle />
+            <button
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((v) => !v)}
+              className="relative flex h-9 w-9 flex-col items-center justify-center bg-transparent border-none cursor-pointer p-0"
+            >
+              {/* Bar 1 → top arm of × */}
+              <motion.span
+                className="absolute block h-0.5 w-6 rounded-full theme-hamburger-bar"
+                animate={menuOpen
+                  ? { rotate: 45, y: 0 }
+                  : { rotate: 0,  y: -8 }
+                }
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+              />
+              {/* Bar 2 → fades out */}
+              <motion.span
+                className="absolute block h-0.5 w-6 rounded-full theme-hamburger-bar"
+                animate={{ opacity: menuOpen ? 0 : 1, scaleX: menuOpen ? 0 : 1 }}
+                transition={{ duration: 0.2 }}
+              />
+              {/* Bar 3 → bottom arm of × */}
+              <motion.span
+                className="absolute block h-0.5 w-6 rounded-full theme-hamburger-bar"
+                animate={menuOpen
+                  ? { rotate: -45, y: 0 }
+                  : { rotate: 0,   y: 8 }
+                }
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+              />
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* ── Mobile drawer (rendered outside nav — avoids overflow:hidden clip) ── */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div className="md:hidden px-6 py-6 theme-mobile-menu"
-            initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-            {links.map((l) => (
-              <a key={l} href={`#${l.toLowerCase()}`}
-                className="block py-3 text-sm tracking-widest uppercase hover:text-[#58d98c] theme-text-sub"
-                onClick={() => setMenuOpen(false)}>
-                {l}
-              </a>
-            ))}
-            <button onClick={() => { onVolunteer(); setMenuOpen(false); }}
-              className="mt-4 w-full rounded-full bg-[#58d98c] py-3 text-sm font-bold tracking-widest uppercase text-[#13111e]">
-              Be a Volunteer
-            </button>
-          </motion.div>
+          <>
+            {/* Transparent backdrop — tap anywhere to close */}
+            <motion.div
+              key="backdrop"
+              className="fixed inset-0 z-[38] md:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMenuOpen(false)}
+            />
+
+            {/* Drawer panel */}
+            <motion.div
+              key="drawer"
+              className="fixed left-0 right-0 z-[39] md:hidden theme-mobile-menu shadow-xl"
+              style={{ top: 72 }}            /* sits flush below the 72px navbar */
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <nav className="px-6 pt-4 pb-6 flex flex-col gap-1">
+                {/* Section links — staggered slide-in */}
+                {links.map(({ label, id }, i) => (
+                  <motion.button
+                    key={id}
+                    onClick={() => handleNavClick(id)}
+                    className="w-full text-left py-3.5 px-4 rounded-xl text-sm tracking-[0.2em] uppercase theme-text-sub hover:text-[#58d98c] hover:bg-[#58d98c]/10 transition-all bg-transparent border-none cursor-pointer"
+                    initial={{ opacity: 0, x: -14 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.055, duration: 0.22, ease: "easeOut" }}
+                  >
+                    {label}
+                  </motion.button>
+                ))}
+
+                {/* Divider */}
+                <motion.div
+                  className="my-2 h-px theme-divider"
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 0.22 }}
+                />
+
+                {/* CTA buttons */}
+                <motion.button
+                  onClick={() => { setMenuOpen(false); onVolunteer(); }}
+                  className="w-full rounded-full bg-[#58d98c] py-3.5 text-sm font-bold tracking-widest uppercase text-[#13111e] hover:bg-[#3dbf76] active:scale-95 transition-all border-none cursor-pointer"
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.26, duration: 0.22 }}
+                >
+                  Be a Volunteer
+                </motion.button>
+
+                <motion.button
+                  className="w-full rounded-full border border-[#58d98c] py-3.5 text-sm font-bold tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all mt-2 cursor-pointer bg-transparent"
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.31, duration: 0.22 }}
+                >
+                  Donate
+                </motion.button>
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 }
 
@@ -275,20 +390,23 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={4}
             className="mt-10 flex flex-wrap gap-4">
             <button onClick={onVolunteer}
-              className="group relative overflow-hidden rounded-full bg-[#58d98c] px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-[#13111e] transition-all hover:shadow-[0_0_30px_rgba(88,217,140,0.4)]">
-              <span className="relative z-10">Join Our Mission</span>
+              className="rounded-full bg-[#58d98c] px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-[#13111e] transition-all hover:shadow-[0_0_30px_rgba(88,217,140,0.4)] hover:bg-[#3dbf76] border-none cursor-pointer">
+              Join Our Mission
             </button>
-            <a href="#programs" className="rounded-full border px-8 py-4 text-sm tracking-[0.2em] uppercase transition-colors theme-ghost-btn">
+            <button
+              onClick={() => scrollTo("programs")}
+              className="rounded-full border px-8 py-4 text-sm tracking-[0.2em] uppercase transition-colors theme-ghost-btn bg-transparent cursor-pointer"
+            >
               Our Programs
-            </a>
+            </button>
           </motion.div>
 
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={5}
             className="mt-14 flex gap-10">
             {[
-              { val: "4+", label: "States Active" },
+              { val: "4+",     label: "States Active"  },
               { val: "5,000+", label: "Lives Impacted" },
-              { val: "200+", label: "Volunteers" },
+              { val: "200+",   label: "Volunteers"     },
             ].map(({ val, label }) => (
               <div key={label}>
                 <div className="font-oswald text-3xl tracking-tight text-[#58d98c]">{val}</div>
@@ -359,18 +477,12 @@ function About() {
           </motion.div>
 
           {[
-            {
-              title: "Our Goal", custom: 3,
-              text: "To promote dignity, wellbeing, and empowerment among vulnerable populations through focused and sustainable social interventions.",
-            },
-            {
-              title: "Our Mission", custom: 5,
-              text: "To promote social wellbeing through phased, community-driven interventions that address critical issues affecting women, girls, and vulnerable populations — beginning with priority needs and gradually expanding to achieve lasting impact.",
-            },
-            {
-              title: "Our Vision", custom: 7,
-              text: "A society where vulnerable individuals and communities live with dignity, good health, equal opportunities, and sustainable support systems.",
-            },
+            { title: "Our Goal", custom: 3,
+              text: "To promote dignity, wellbeing, and empowerment among vulnerable populations through focused and sustainable social interventions." },
+            { title: "Our Mission", custom: 5,
+              text: "To promote social wellbeing through phased, community-driven interventions that address critical issues affecting women, girls, and vulnerable populations — beginning with priority needs and gradually expanding to achieve lasting impact." },
+            { title: "Our Vision", custom: 7,
+              text: "A society where vulnerable individuals and communities live with dignity, good health, equal opportunities, and sustainable support systems." },
           ].map(({ title, custom, text }, idx) => (
             <div key={title}>
               <motion.h2 variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={custom}
@@ -385,11 +497,13 @@ function About() {
             </div>
           ))}
 
-          <motion.a variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={10}
-            href="#programs"
-            className="inline-block rounded-full bg-[#58d98c] px-8 py-3 text-sm font-bold tracking-[0.25em] uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors">
+          <motion.button
+            variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={10}
+            onClick={() => scrollTo("programs")}
+            className="rounded-full bg-[#58d98c] px-8 py-3 text-sm font-bold tracking-[0.25em] uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors border-none cursor-pointer"
+          >
             Our Programs →
-          </motion.a>
+          </motion.button>
         </div>
       </div>
     </section>
@@ -398,36 +512,26 @@ function About() {
 
 // ── Programs ──────────────────────────────────────────────────────────────────
 const programs = [
-  {
-    img: "/gender.jpg",
+  { img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_02.jpg",
     title: "Gender Violence Prevention",
     desc: "Breaking the silence on gender-based violence through awareness campaigns, survivor support, and community-based protection networks.",
-    tag: "Protection", icon: "🛡️",
-  },
-  {
-    img: "/pregnant.jpg",
+    tag: "Protection", icon: "🛡️" },
+  { img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_05.jpg",
     title: "Menstrual & Reproductive Health",
     desc: "Creating awareness on menstrual health, cervical cancer, and bodily autonomy while increasing access to essential hygiene products.",
-    tag: "Health", icon: "🌸",
-  },
-  {
-    img: "riga.jpg",
+    tag: "Health", icon: "🌸" },
+  { img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_01.jpg",
     title: "Women's Empowerment",
     desc: "Empowering women through financial literacy, education, entrepreneurship training, and legal awareness programs.",
-    tag: "Empowerment", icon: "💪",
-  },
-  {
-    img: "/sewing.jpg",
+    tag: "Empowerment", icon: "💪" },
+  { img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_03.jpg",
     title: "Support for Vulnerable Women",
     desc: "Providing psychosocial and economic support for widows, divorcees, and vulnerable women through structured community care.",
-    tag: "Support", icon: "🤝",
-  },
-  {
-    img: "/children.jpg",
+    tag: "Support", icon: "🤝" },
+  { img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_04l.jpg",
     title: "Policy & Cultural Advocacy",
     desc: "Influencing policies and shifting cultural mindsets through storytelling, advocacy campaigns, and community engagement.",
-    tag: "Advocacy", icon: "📢",
-  },
+    tag: "Advocacy", icon: "📢" },
 ];
 
 function Programs() {
@@ -451,12 +555,11 @@ function Programs() {
             className="mx-auto mt-4 h-1 w-24 theme-divider" />
         </div>
 
-        {/* Featured card */}
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={3}
           className="grid md:grid-cols-5 rounded-2xl overflow-hidden mb-6 theme-border">
-          <div className="md:col-span-3  overflow-hidden">
+          <div className="md:col-span-3 overflow-hidden">
             <img src={programs[0].img} alt={programs[0].title}
-              className="w-full h-120 md:h-140 object-cover hover:scale-105 transition-transform duration-700" />
+              className="w-full h-72 md:h-full object-cover hover:scale-105 transition-transform duration-700" />
           </div>
           <div className="md:col-span-2 p-10 flex flex-col justify-center theme-section-alt">
             <span className="text-[10px] tracking-[0.35em] uppercase rounded-full w-fit mb-4 px-3 py-1 text-[#58d98c]"
@@ -466,13 +569,12 @@ function Programs() {
             <h3 className="font-oswald text-2xl uppercase tracking-wide mb-3 theme-text-main">{programs[0].title}</h3>
             <div className="h-0.5 w-14 mb-4 theme-divider" />
             <p className="text-sm leading-relaxed mb-6 theme-text-sub open-sans">{programs[0].desc}</p>
-            {/* <button className="self-start rounded-full border border-[#58d98c] px-6 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all">
+            <button className="self-start rounded-full border border-[#58d98c] px-6 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all">
               Learn More
-            </button> */}
+            </button>
           </div>
         </motion.div>
 
-        {/* 4-card grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {programs.slice(1).map((p, i) => (
             <motion.div key={p.title}
@@ -487,7 +589,7 @@ function Programs() {
                 <h3 className="font-oswald text-lg uppercase tracking-wide mt-1 mb-2 theme-text-main">{p.title}</h3>
                 <div className="h-px w-10 mb-3 theme-divider" />
                 <p className="text-xs leading-relaxed mb-4 theme-text-sub open-sans">{p.desc.slice(0, 110)}…</p>
-                {/* <button className="text-xs tracking-widest uppercase text-[#58d98c] hover:underline">Learn More →</button> */}
+                <button className="text-xs tracking-widest uppercase text-[#58d98c] hover:underline bg-transparent border-none cursor-pointer p-0">Learn More →</button>
               </div>
             </motion.div>
           ))}
@@ -551,7 +653,7 @@ function Impact() {
 
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={12}
           className="mt-14 text-center">
-          <button className="rounded-full bg-[#58d98c] px-12 py-4 font-bold tracking-[0.25em] text-sm uppercase text-[#13111e] hover:bg-[#3dbf76] hover:shadow-[0_0_30px_rgba(88,217,140,0.35)] transition-all">
+          <button className="rounded-full bg-[#58d98c] px-12 py-4 font-bold tracking-[0.25em] text-sm uppercase text-[#13111e] hover:bg-[#3dbf76] hover:shadow-[0_0_30px_rgba(88,217,140,0.35)] transition-all border-none cursor-pointer">
             Partner With Us
           </button>
         </motion.div>
@@ -576,11 +678,11 @@ function DonateCTA({ onVolunteer }: { onVolunteer: () => void }) {
           className="h-0.5 w-16 mx-auto my-6 theme-divider" />
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={2}
           className="flex flex-wrap gap-4 justify-center">
-          <button className="rounded-full bg-[#58d98c] px-10 py-4 font-bold tracking-[0.25em] text-sm uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors">
+          <button className="rounded-full bg-[#58d98c] px-10 py-4 font-bold tracking-[0.25em] text-sm uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors border-none cursor-pointer">
             Donate Now
           </button>
           <button onClick={onVolunteer}
-            className="rounded-full border-2 border-[#58d98c] px-10 py-4 text-sm tracking-[0.2em] uppercase text-[#58d98c] hover:bg-[#58d98c]/15 transition-colors">
+            className="rounded-full border-2 border-[#58d98c] px-10 py-4 text-sm tracking-[0.2em] uppercase text-[#58d98c] hover:bg-[#58d98c]/15 transition-colors bg-transparent cursor-pointer">
             Be a Volunteer
           </button>
         </motion.div>
@@ -639,6 +741,14 @@ function Contact() {
 // ── Footer ────────────────────────────────────────────────────────────────────
 function Footer() {
   const { ref, inView } = useScrollIn();
+  const footerLinks = [
+    { label: "Home",        id: "home"     },
+    { label: "About Us",    id: "about"    },
+    { label: "Our Programs",id: "programs" },
+    { label: "Impact",      id: "impact"   },
+    { label: "Contact",     id: "contact"  },
+  ];
+
   return (
     <footer className="pt-16 pb-8 theme-footer">
       <div ref={ref} className="mx-auto max-w-7xl px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -658,12 +768,13 @@ function Footer() {
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={1}>
           <p className="font-oswald text-base tracking-[0.2em] uppercase mb-3 text-white">Quick Links</p>
           <div className="h-px mb-4 theme-footer-divider" />
-          {["Home", "About Us", "Our Programs", "Impact", "Volunteer", "Stop Violence", "Donate"].map((l) => (
-            <a key={l} href="#"
-              className="block text-xs tracking-widest uppercase py-1.5 hover:text-[#58d98c] transition-colors"
+          {footerLinks.map(({ label, id }) => (
+            <button key={id}
+              onClick={() => scrollTo(id)}
+              className="block w-full text-left text-xs tracking-widest uppercase py-1.5 hover:text-[#58d98c] transition-colors bg-transparent border-none cursor-pointer"
               style={{ color: "rgba(215,207,255,0.75)" }}>
-              {l}
-            </a>
+              {label}
+            </button>
           ))}
         </motion.div>
 
@@ -675,9 +786,9 @@ function Footer() {
           <div className="flex gap-3">
             {[
               { label: "Fb", href: "https://facebook.com" },
-              { label: "Tw", href: "https://twitter.com" },
+              { label: "Tw", href: "https://twitter.com"  },
               { label: "In", href: "https://linkedin.com" },
-              { label: "Ig", href: "https://instagram.com" },
+              { label: "Ig", href: "https://instagram.com"},
             ].map(({ label, href }) => (
               <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                 className="h-9 w-9 rounded-full border flex items-center justify-center text-xs font-bold hover:border-[#58d98c] hover:text-[#58d98c] transition-colors"
@@ -698,7 +809,7 @@ function Footer() {
             <input type="email" placeholder="Your email address"
               className="w-full rounded-lg border px-4 py-3 text-xs focus:outline-none focus:border-[#58d98c] transition-colors"
               style={{ backgroundColor: "#13111e", borderColor: "#3d3d69", color: "#ffffff" }} />
-            <button className="rounded-full bg-[#58d98c] py-3 text-xs font-bold tracking-[0.25em] uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors">
+            <button className="rounded-full bg-[#58d98c] py-3 text-xs font-bold tracking-[0.25em] uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors border-none cursor-pointer">
               Subscribe
             </button>
           </div>
@@ -731,161 +842,124 @@ export default function NGOWebsite() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap');
 
-        /* ════════════════════════════════
-           DARK THEME  (default)
-        ════════════════════════════════ */
-        :root,
-        .dark {
-          --clr-bg:           #13111e;
-          --clr-bg-alt:       #201f3d;
-          --clr-card:         #201f3d;
-          --clr-input:        #13111e;
-          --clr-border:       #3d3d69;
-          --clr-divider:      rgba(215,207,255,0.30);
-          --clr-divider-faint:rgba(255,255,255,0.12);
-          --clr-bar-track:    #3d3d69;
-
-          --clr-text-main:    #ffffff;
-          --clr-text-sub:     #d7cfff;
-          --clr-text-muted:   #a89fd4;
-          --clr-heading-acc:  #d7cfff;
-          --clr-outline:      #58d98c;
-          --clr-cta-text:     #d7cfff;
-
-          --clr-hero-bg:      #13111e;
-          --clr-hero-grad:    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(61,61,105,0.55) 0%, transparent 70%),
-                              radial-gradient(ellipse 50% 40% at 20% 80%, rgba(88,217,140,0.08) 0%, transparent 60%);
-          --clr-hero-line:    linear-gradient(90deg,transparent,rgba(215,207,255,0.07),transparent);
-          --clr-glow-1:       rgba(61,61,105,0.30);
-          --clr-glow-2:       rgba(88,217,140,0.05);
-          --clr-img-overlay:  linear-gradient(to top, rgba(19,17,30,0.5), transparent);
-          --clr-bottom-bar:   #ffffff;
-
-          --clr-overlay:      rgba(19,17,30,0.90);
-          --clr-nav-bg:       rgba(19,17,30,0.95);
-          --clr-mobile-menu:  #201f3d;
-
-          --clr-cta-bg:       #3d3d69;
-          --clr-cta-overlay:  rgba(61,61,105,0.82);
-
-          --clr-footer-bg:    #201f3d;
-          --clr-footer-brd:   #3d3d69;
-          --clr-shadow:       rgba(0,0,0,0.4);
+        :root, .dark {
+          --clr-bg:            #13111e;
+          --clr-bg-alt:        #201f3d;
+          --clr-card:          #201f3d;
+          --clr-input:         #13111e;
+          --clr-border:        #3d3d69;
+          --clr-divider:       rgba(215,207,255,0.30);
+          --clr-divider-faint: rgba(255,255,255,0.12);
+          --clr-bar-track:     #3d3d69;
+          --clr-text-main:     #ffffff;
+          --clr-text-sub:      #d7cfff;
+          --clr-text-muted:    #a89fd4;
+          --clr-heading-acc:   #d7cfff;
+          --clr-outline:       #58d98c;
+          --clr-cta-text:      #d7cfff;
+          --clr-hero-bg:       #13111e;
+          --clr-hero-grad:     radial-gradient(ellipse 80% 60% at 70% 40%, rgba(61,61,105,0.55) 0%, transparent 70%),
+                               radial-gradient(ellipse 50% 40% at 20% 80%, rgba(88,217,140,0.08) 0%, transparent 60%);
+          --clr-hero-line:     linear-gradient(90deg,transparent,rgba(215,207,255,0.07),transparent);
+          --clr-glow-1:        rgba(61,61,105,0.30);
+          --clr-glow-2:        rgba(88,217,140,0.05);
+          --clr-img-overlay:   linear-gradient(to top, rgba(19,17,30,0.5), transparent);
+          --clr-bottom-bar:    #ffffff;
+          --clr-overlay:       rgba(19,17,30,0.90);
+          --clr-nav-bg:        rgba(19,17,30,0.95);
+          --clr-mobile-menu:   #201f3d;
+          --clr-cta-bg:        #3d3d69;
+          --clr-cta-overlay:   rgba(61,61,105,0.82);
+          --clr-footer-bg:     #201f3d;
+          --clr-footer-brd:    #3d3d69;
+          --clr-shadow:        rgba(0,0,0,0.4);
         }
 
-        /* ════════════════════════════════
-           LIGHT THEME
-        ════════════════════════════════ */
         .light {
-          --clr-bg:           #f4f1eb;
-          --clr-bg-alt:       #ffffff;
-          --clr-card:         #ffffff;
-          --clr-input:        #ece8e0;
-          --clr-border:       #ddd7f0;
-          --clr-divider:      rgba(46,94,63,0.20);
-          --clr-divider-faint:rgba(61,61,105,0.10);
-          --clr-bar-track:    #ddd7f0;
-
-          --clr-text-main:    #1a1435;
-          --clr-text-sub:     #3b2f6e;
-          --clr-text-muted:   #7c6fa8;
-          --clr-heading-acc:  #2e5c3f;
-          --clr-outline:      #2ea86b;
-          --clr-cta-text:     #f4f1eb;
-
-          --clr-hero-bg:      #f4f1eb;
-          --clr-hero-grad:    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(88,217,140,0.13) 0%, transparent 70%),
-                              radial-gradient(ellipse 50% 40% at 20% 80%, rgba(61,61,105,0.07) 0%, transparent 60%);
-          --clr-hero-line:    linear-gradient(90deg,transparent,rgba(61,61,105,0.06),transparent);
-          --clr-glow-1:       rgba(88,217,140,0.14);
-          --clr-glow-2:       rgba(61,61,105,0.05);
-          --clr-img-overlay:  linear-gradient(to top, rgba(244,241,235,0.45), transparent);
-          --clr-bottom-bar:   #1a1435;
-
-          --clr-overlay:      rgba(26,20,53,0.60);
-          --clr-nav-bg:       rgba(244,241,235,0.96);
-          --clr-mobile-menu:  #ffffff;
-
-          --clr-cta-bg:       #1a1435;
-          --clr-cta-overlay:  rgba(26,20,53,0.93);
-
-          --clr-footer-bg:    #1a1435;
-          --clr-footer-brd:   #2e2660;
-          --clr-shadow:       rgba(0,0,0,0.10);
+          --clr-bg:            #f4f1eb;
+          --clr-bg-alt:        #ffffff;
+          --clr-card:          #ffffff;
+          --clr-input:         #ece8e0;
+          --clr-border:        #ddd7f0;
+          --clr-divider:       rgba(46,94,63,0.20);
+          --clr-divider-faint: rgba(61,61,105,0.10);
+          --clr-bar-track:     #ddd7f0;
+          --clr-text-main:     #1a1435;
+          --clr-text-sub:      #3b2f6e;
+          --clr-text-muted:    #7c6fa8;
+          --clr-heading-acc:   #2e5c3f;
+          --clr-outline:       #2ea86b;
+          --clr-cta-text:      #f4f1eb;
+          --clr-hero-bg:       #f4f1eb;
+          --clr-hero-grad:     radial-gradient(ellipse 80% 60% at 70% 40%, rgba(88,217,140,0.13) 0%, transparent 70%),
+                               radial-gradient(ellipse 50% 40% at 20% 80%, rgba(61,61,105,0.07) 0%, transparent 60%);
+          --clr-hero-line:     linear-gradient(90deg,transparent,rgba(61,61,105,0.06),transparent);
+          --clr-glow-1:        rgba(88,217,140,0.14);
+          --clr-glow-2:        rgba(61,61,105,0.05);
+          --clr-img-overlay:   linear-gradient(to top, rgba(244,241,235,0.45), transparent);
+          --clr-bottom-bar:    #1a1435;
+          --clr-overlay:       rgba(26,20,53,0.60);
+          --clr-nav-bg:        rgba(244,241,235,0.96);
+          --clr-mobile-menu:   #ffffff;
+          --clr-cta-bg:        #1a1435;
+          --clr-cta-overlay:   rgba(26,20,53,0.93);
+          --clr-footer-bg:     #1a1435;
+          --clr-footer-brd:    #2e2660;
+          --clr-shadow:        rgba(0,0,0,0.10);
         }
 
-        /* ════════════════════════════════
-           BASE RESET
-        ════════════════════════════════ */
         .font-oswald { font-family: 'Oswald', sans-serif; }
         .open-sans   { font-family: 'Open Sans', sans-serif; }
         *, *::before, *::after { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         html, body { margin: 0; padding: 0; }
-        body {
-          background-color: var(--clr-bg);
-          color: var(--clr-text-sub);
-          transition: background-color 0.35s ease, color 0.25s ease;
-        }
+        body { background-color: var(--clr-bg); color: var(--clr-text-sub); }
 
-        /* ════════════════════════════════
-           THEME UTILITY CLASSES
-        ════════════════════════════════ */
+        .theme-text-main      { color: var(--clr-text-main); }
+        .theme-text-sub       { color: var(--clr-text-sub); }
+        .theme-text-muted     { color: var(--clr-text-muted); }
+        .theme-heading-accent { color: var(--clr-heading-acc); }
+        .theme-cta-text       { color: var(--clr-cta-text); }
+        .text-accent          { color: #58d98c; }
 
-        /* Text */
-        .theme-text-main    { color: var(--clr-text-main); }
-        .theme-text-sub     { color: var(--clr-text-sub); }
-        .theme-text-muted   { color: var(--clr-text-muted); }
-        .theme-heading-accent{ color: var(--clr-heading-acc); }
-        .theme-cta-text     { color: var(--clr-cta-text); }
-        .text-accent        { color: #58d98c; }
-
-        /* Outline heading */
         .theme-outline-text {
           color: transparent;
           -webkit-text-stroke: 2px var(--clr-outline);
         }
 
-        /* Sections */
         .theme-section-main { background-color: var(--clr-bg); }
         .theme-section-alt  { background-color: var(--clr-bg-alt); }
 
-        /* Hero */
-        .theme-hero {
-          background-color: var(--clr-hero-bg);
-          background-image: var(--clr-hero-grad);
-        }
-        .theme-hero-line    { background: var(--clr-hero-line); }
-        .theme-glow-1       { background-color: var(--clr-glow-1); }
-        .theme-glow-2       { background-color: var(--clr-glow-2); }
-        .theme-img-overlay  { background: var(--clr-img-overlay); }
-        .theme-bottom-bar   { background-color: var(--clr-bottom-bar); }
+        .theme-hero { background-color: var(--clr-hero-bg); background-image: var(--clr-hero-grad); }
+        .theme-hero-line   { background: var(--clr-hero-line); }
+        .theme-glow-1      { background-color: var(--clr-glow-1); }
+        .theme-glow-2      { background-color: var(--clr-glow-2); }
+        .theme-img-overlay { background: var(--clr-img-overlay); }
+        .theme-bottom-bar  { background-color: var(--clr-bottom-bar); }
 
-        /* Dividers */
         .theme-divider       { background-color: var(--clr-divider); }
         .theme-divider-faint { background-color: var(--clr-divider-faint); }
 
-        /* Card */
-        .theme-card {
-          background-color: var(--clr-card);
-          border: 1px solid var(--clr-border);
-        }
+        .theme-card          { background-color: var(--clr-card); border: 1px solid var(--clr-border); }
         .theme-card-hover:hover { border-color: rgba(88,217,140,0.5); }
-        .theme-card-border { border: 1px solid var(--clr-border); }
-        .theme-border { border: 1px solid var(--clr-border); }
+        .theme-card-border   { border: 1px solid var(--clr-border); }
+        .theme-border        { border: 1px solid var(--clr-border); }
 
-        /* Nav */
+        /* Hamburger bar — inherits text color via currentColor */
+        .theme-hamburger-bar { background-color: var(--clr-text-main); }
+
         .theme-nav-scrolled {
           background-color: var(--clr-nav-bg) !important;
           backdrop-filter: blur(12px);
           box-shadow: 0 2px 20px var(--clr-shadow);
         }
+
+        /* Mobile drawer */
         .theme-mobile-menu {
           background-color: var(--clr-mobile-menu);
-          border-top: 1px solid var(--clr-border);
+          border-bottom: 1px solid var(--clr-border);
         }
 
-        /* Ghost button */
         .theme-ghost-btn {
           color: var(--clr-text-sub);
           border-color: var(--clr-divider);
@@ -895,14 +969,10 @@ export default function NGOWebsite() {
           border-color: var(--clr-text-main);
         }
 
-        /* Overlay */
-        .theme-overlay { background-color: var(--clr-overlay); }
-
-        /* Modal close */
+        .theme-overlay   { background-color: var(--clr-overlay); }
         .theme-close-btn { color: var(--clr-text-muted); }
         .theme-close-btn:hover { color: #58d98c; }
 
-        /* Input */
         .theme-input {
           background-color: var(--clr-input);
           border: 1px solid var(--clr-border);
@@ -912,40 +982,27 @@ export default function NGOWebsite() {
         .theme-input:focus { border-color: #58d98c; outline: none; }
         .theme-input::placeholder { color: var(--clr-text-muted); }
 
-        /* Progress bar */
         .theme-bar-track { background-color: var(--clr-bar-track); }
 
-        /* CTA strip */
-        .theme-cta-section  { background-color: var(--clr-cta-bg); }
-        .theme-cta-overlay  {
-          position: absolute; inset: 0;
-          background-color: var(--clr-cta-overlay);
-        }
-        .theme-cta-text { color: var(--clr-cta-text); }
+        .theme-cta-section { background-color: var(--clr-cta-bg); }
+        .theme-cta-overlay { position: absolute; inset: 0; background-color: var(--clr-cta-overlay); }
 
-        /* Footer — always dark regardless of page theme */
-        .theme-footer {
-          background-color: var(--clr-footer-bg);
-          border-top: 1px solid var(--clr-footer-brd);
-        }
-        .theme-footer-divider     { background-color: rgba(255,255,255,0.15); }
+        .theme-footer { background-color: var(--clr-footer-bg); border-top: 1px solid var(--clr-footer-brd); }
+        .theme-footer-divider { background-color: rgba(255,255,255,0.15); }
         .theme-footer-bottom-border { border-top: 1px solid var(--clr-footer-brd); padding-top: 2rem; }
 
-        /* Toggle button */
         .theme-toggle-btn {
           border: 1px solid var(--clr-border);
           background-color: var(--clr-card);
           color: var(--clr-text-main);
         }
 
-        /* Global smooth transitions */
+        /* Theme transition — exclude transform & opacity so Framer Motion isn't interrupted */
         *, *::before, *::after {
           transition-property: background-color, border-color, color, box-shadow;
           transition-duration: 0.3s;
           transition-timing-function: ease;
         }
-        /* Don't transition transforms/opacity (breaks animations) */
-        [style*="transform"], .motion-safe\\:transition-none { transition-property: background-color, border-color, color; }
       `}</style>
 
       <AnimatePresence>
