@@ -399,31 +399,31 @@ function About() {
 // ── Programs ──────────────────────────────────────────────────────────────────
 const programs = [
   {
-    img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_02.jpg",
+    img: "/gender.jpg",
     title: "Gender Violence Prevention",
     desc: "Breaking the silence on gender-based violence through awareness campaigns, survivor support, and community-based protection networks.",
     tag: "Protection", icon: "🛡️",
   },
   {
-    img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_05.jpg",
+    img: "/pregnant.jpg",
     title: "Menstrual & Reproductive Health",
     desc: "Creating awareness on menstrual health, cervical cancer, and bodily autonomy while increasing access to essential hygiene products.",
     tag: "Health", icon: "🌸",
   },
   {
-    img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_01.jpg",
+    img: "riga.jpg",
     title: "Women's Empowerment",
     desc: "Empowering women through financial literacy, education, entrepreneurship training, and legal awareness programs.",
     tag: "Empowerment", icon: "💪",
   },
   {
-    img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_03.jpg",
+    img: "/sewing.jpg",
     title: "Support for Vulnerable Women",
     desc: "Providing psychosocial and economic support for widows, divorcees, and vulnerable women through structured community care.",
     tag: "Support", icon: "🤝",
   },
   {
-    img: "https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/programs_04l.jpg",
+    img: "/children.jpg",
     title: "Policy & Cultural Advocacy",
     desc: "Influencing policies and shifting cultural mindsets through storytelling, advocacy campaigns, and community engagement.",
     tag: "Advocacy", icon: "📢",
@@ -454,9 +454,9 @@ function Programs() {
         {/* Featured card */}
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={3}
           className="grid md:grid-cols-5 rounded-2xl overflow-hidden mb-6 theme-border">
-          <div className="md:col-span-3 overflow-hidden">
+          <div className="md:col-span-3  overflow-hidden">
             <img src={programs[0].img} alt={programs[0].title}
-              className="w-full h-72 md:h-full object-cover hover:scale-105 transition-transform duration-700" />
+              className="w-full h-120 md:h-140 object-cover hover:scale-105 transition-transform duration-700" />
           </div>
           <div className="md:col-span-2 p-10 flex flex-col justify-center theme-section-alt">
             <span className="text-[10px] tracking-[0.35em] uppercase rounded-full w-fit mb-4 px-3 py-1 text-[#58d98c]"
@@ -466,9 +466,9 @@ function Programs() {
             <h3 className="font-oswald text-2xl uppercase tracking-wide mb-3 theme-text-main">{programs[0].title}</h3>
             <div className="h-0.5 w-14 mb-4 theme-divider" />
             <p className="text-sm leading-relaxed mb-6 theme-text-sub open-sans">{programs[0].desc}</p>
-            <button className="self-start rounded-full border border-[#58d98c] px-6 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all">
+            {/* <button className="self-start rounded-full border border-[#58d98c] px-6 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all">
               Learn More
-            </button>
+            </button> */}
           </div>
         </motion.div>
 
@@ -487,7 +487,7 @@ function Programs() {
                 <h3 className="font-oswald text-lg uppercase tracking-wide mt-1 mb-2 theme-text-main">{p.title}</h3>
                 <div className="h-px w-10 mb-3 theme-divider" />
                 <p className="text-xs leading-relaxed mb-4 theme-text-sub open-sans">{p.desc.slice(0, 110)}…</p>
-                <button className="text-xs tracking-widest uppercase text-[#58d98c] hover:underline">Learn More →</button>
+                {/* <button className="text-xs tracking-widest uppercase text-[#58d98c] hover:underline">Learn More →</button> */}
               </div>
             </motion.div>
           ))}
