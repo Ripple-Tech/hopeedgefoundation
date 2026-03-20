@@ -3,6 +3,7 @@ import { Oswald, Open_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import InstallPrompt from "@/components/InstallPrompt";
+import { ThemeProvider } from "next-themes";
 
 // Display font for headings — matches the NGO brand
 const oswald = Oswald({
@@ -108,6 +109,12 @@ export default function RootLayout({
           "selection:bg-[#58d98c] selection:text-[#13111e]"
         )}
       >
+        <ThemeProvider
+          attribute="class"        /* toggles .dark / .light on <html> */
+          defaultTheme="dark"      /* dark by default as requested */
+          enableSystem={false}     /* ignore OS preference */
+          disableTransitionOnChange={false}
+        >
         <main className="grow relative min-h-screen overflow-hidden">
           {/* Centered website container */}
           <div className="max-w-[1440px] mx-auto w-full">
@@ -115,7 +122,14 @@ export default function RootLayout({
           </div>
           <InstallPrompt />
         </main>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+
+
+
+
+
+
