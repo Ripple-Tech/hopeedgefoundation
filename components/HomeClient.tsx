@@ -383,7 +383,7 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
             className="text-base leading-relaxed max-w-md theme-text-sub open-sans">
             Rigar Kariya Gender Empowerment Foundation (RKGEF) is a registered non-governmental,
             non-profit organisation breaking the silence on gender violence, advancing menstrual
-            health, and empowering women through education, legal awareness, and economic support —
+            health, and empowering women through education, legal awareness, and economic support for the less privileged and vulnerable people —
             one community at a time.
           </motion.p>
 
@@ -420,7 +420,7 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
           initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
           <div className="relative overflow-hidden rounded-2xl">
-            <img src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/6381/Woman_Landing.png"
+            <img src="/veil1.png"
               alt="RKGEF volunteer" className="w-full object-cover" />
             <div className="absolute inset-0 theme-img-overlay" />
           </div>
@@ -452,7 +452,7 @@ function About() {
       <div ref={ref} className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-16 items-start">
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={0}>
           <div className="overflow-hidden rounded-2xl theme-card-border">
-            <img src="/women.jpg" alt="RKGEF Community"
+            <img src="/girls.jpg" alt="RKGEF Community"
               className="w-full object-cover hover:scale-105 transition-transform duration-700" />
           </div>
           <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={1}
@@ -512,7 +512,7 @@ function About() {
 
 // ── Programs ──────────────────────────────────────────────────────────────────
 const programs = [
-  { img: "/gender.jpg",
+  { img: "/women1.png",
     title: "Gender Violence Prevention",
     desc: "Breaking the silence on gender-based violence through awareness campaigns, survivor support, and community-based protection networks.",
     tag: "Protection", icon: "🛡️" },
@@ -524,11 +524,11 @@ const programs = [
     title: "Women's Empowerment",
     desc: "Empowering women through financial literacy, education, entrepreneurship training, and legal awareness programs.",
     tag: "Empowerment", icon: "💪" },
-  { img: "/sewing.jpg",
+  { img: "/girl.png",
     title: "Support for Vulnerable Women",
     desc: "Providing psychosocial and economic support for widows, divorcees, and vulnerable women through structured community care.",
     tag: "Support", icon: "🤝" },
-  { img: "/children.jpg",
+  { img: "/children1.jpg",
     title: "Policy & Cultural Advocacy",
     desc: "Influencing policies and shifting cultural mindsets through storytelling, advocacy campaigns, and community engagement.",
     tag: "Advocacy", icon: "📢" },
@@ -569,9 +569,9 @@ function Programs() {
             <h3 className="font-oswald text-2xl uppercase tracking-wide mb-3 theme-text-main">{programs[0].title}</h3>
             <div className="h-0.5 w-14 mb-4 theme-divider" />
             <p className="text-sm leading-relaxed mb-6 theme-text-sub open-sans">{programs[0].desc}</p>
-            <button className="self-start rounded-full border border-[#58d98c] px-6 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all">
+            {/* <button className="self-start rounded-full border border-[#58d98c] px-6 py-2 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all">
               Learn More
-            </button>
+            </button> */}
           </div>
         </motion.div>
 
