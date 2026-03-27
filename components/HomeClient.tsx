@@ -526,7 +526,7 @@ const programs = [
     tag: "Empowerment", icon: "💪" },
   { img: "/girl.png",
     title: "Support for Vulnerable Women",
-    desc: "Providing psychosocial and economic support for widows, divorcees, and vulnerable women through structured community care.",
+    desc: "Providing support for vulnerable women, girls, and elderly.",
     tag: "Support", icon: "🤝" },
   { img: "/children1.jpg",
     title: "Policy & Cultural Advocacy",
