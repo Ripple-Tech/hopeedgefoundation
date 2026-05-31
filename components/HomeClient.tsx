@@ -452,7 +452,7 @@ function About() {
       <div ref={ref} className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-16 items-start">
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={0}>
           <div className="overflow-hidden rounded-2xl theme-card-border">
-            <img src="/girls.jpg" alt="RKGEF Community"
+            <img src="/girlss.jpg" alt="RKGEF Community"
               className="w-full object-cover hover:scale-105 transition-transform duration-700" />
           </div>
           <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={1}
@@ -512,7 +512,7 @@ function About() {
 
 // ── Programs ──────────────────────────────────────────────────────────────────
 const programs = [
-  { img: "/women1.png",
+  { img: "/women1.jpg",
     title: "Gender Violence Prevention",
     desc: "Breaking the silence on gender-based violence through awareness campaigns, survivor support, and community-based protection networks.",
     tag: "Protection", icon: "🛡️" },
@@ -520,11 +520,11 @@ const programs = [
     title: "Menstrual & Reproductive Health",
     desc: "Creating awareness on menstrual health, cervical cancer, and bodily autonomy while increasing access to essential hygiene products.",
     tag: "Health", icon: "🌸" },
-  { img: "/riga.jpg",
+  { img: "/empower.jpg",
     title: "Women's Empowerment",
     desc: "Empowering women through financial literacy, education, entrepreneurship training, and legal awareness programs.",
     tag: "Empowerment", icon: "💪" },
-  { img: "/girl.png",
+  { img: "/vuln.jpg",
     title: "Support for Vulnerable Women",
     desc: "Providing support for vulnerable women, girls, and elderly.",
     tag: "Support", icon: "🤝" },
