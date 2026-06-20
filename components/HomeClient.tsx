@@ -425,7 +425,7 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
           initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
           <div className="relative overflow-hidden rounded-2xl">
-            <img src="/veil1.png"
+            <img src="/rig21.jpg"
               alt="RKGEF volunteer" className="w-full object-cover" />
             <div className="absolute inset-0 theme-img-overlay" />
           </div>
