@@ -515,7 +515,7 @@ function About() {
   );
 }
 
-// ── Programs ──────────────────────────────────────────────────────────────────
+// ── Program ──────────────────────────────────────────────────────────────────
 const programs = [
   { img: "/women1.jpg",
     title: "Gender Violence Prevention",
