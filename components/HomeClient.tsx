@@ -5,6 +5,7 @@ import { motion, useInView, AnimatePresence, cubicBezier } from "framer-motion";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import VisitationsGallery from "./Gallery";
+import DonateModal from "./DonateModal";
 
 // ── Theme Toggle ──────────────────────────────────────────────────────────────
 function ThemeToggle() {
@@ -150,7 +151,7 @@ function VolunteerModal({ onClose }: { onClose: () => void }) {
 }
 
 // ── Navbar ────────────────────────────────────────────────────────────────────
-function Navbar({ onVolunteer }: { onVolunteer: () => void }) {
+function Navbar({ onVolunteer, onDonate }: { onVolunteer: () => void; onDonate: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -231,7 +232,10 @@ function Navbar({ onVolunteer }: { onVolunteer: () => void }) {
             >
               Volunteer
             </button>
-            <button className="rounded-full bg-[#58d98c] px-5 py-2 text-xs tracking-widest font-bold uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors">
+            <button
+              onClick={onDonate}
+              className="rounded-full bg-[#58d98c] px-5 py-2 text-xs tracking-widest font-bold uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors"
+            >
               Donate
             </button>
           </div>
@@ -664,7 +668,7 @@ function Impact() {
 }
 
 // ── Donate CTA ────────────────────────────────────────────────────────────────
-function DonateCTA({ onVolunteer }: { onVolunteer: () => void }) {
+function DonateCTA({ onVolunteer, onDonate }: { onVolunteer: () => void; onDonate: () => void }) {
   const { ref, inView } = useScrollIn();
   return (
     <section className="py-20 relative overflow-hidden theme-cta-section">
@@ -679,7 +683,8 @@ function DonateCTA({ onVolunteer }: { onVolunteer: () => void }) {
           className="h-0.5 w-16 mx-auto my-6 theme-divider" />
         <motion.div variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} custom={2}
           className="flex flex-wrap gap-4 justify-center">
-          <button className="rounded-full bg-[#58d98c] px-10 py-4 font-bold tracking-[0.25em] text-sm uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors border-none cursor-pointer">
+          <button onClick={onDonate}
+            className="rounded-full bg-[#58d98c] px-10 py-4 font-bold tracking-[0.25em] text-sm uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors border-none cursor-pointer">
             Donate Now
           </button>
           <button onClick={onVolunteer}
@@ -837,7 +842,7 @@ function Footer() {
 // ── Root ──────────────────────────────────────────────────────────────────────
 export default function NGOWebsite() {
   const [showModal, setShowModal] = useState(false);
-
+  const [showDonateModal, setShowDonateModal] = useState(false)
   return (
     <>
       <style>{`
@@ -1008,15 +1013,17 @@ export default function NGOWebsite() {
 
       <AnimatePresence>
         {showModal && <VolunteerModal onClose={() => setShowModal(false)} />}
+        {showDonateModal && <DonateModal onClose={() => setShowDonateModal(false)} />}
       </AnimatePresence>
 
-      <Navbar onVolunteer={() => setShowModal(true)} />
+      <Navbar onVolunteer={() => setShowModal(true)} onDonate={() => setShowDonateModal(true)}/>
       <Hero onVolunteer={() => setShowModal(true)} />
       <About />
       <Programs />
       <Impact />
       <VisitationsGallery />
-      <DonateCTA onVolunteer={() => setShowModal(true)} />
+      <DonateCTA onVolunteer={() => setShowModal(true)} onDonate={() => setShowDonateModal(true)} />
+
       <Contact />
       <Footer />
     </>
