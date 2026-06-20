@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence, cubicBezier } from "framer-motion";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import VisitationsGallery from "./Gallery";
 
 // ── Theme Toggle ──────────────────────────────────────────────────────────────
 function ThemeToggle() {
@@ -1014,6 +1015,7 @@ export default function NGOWebsite() {
       <About />
       <Programs />
       <Impact />
+      <VisitationsGallery />
       <DonateCTA onVolunteer={() => setShowModal(true)} />
       <Contact />
       <Footer />
