@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Update these with the real foundation bank details
 const ACCOUNT = {
-  bankName: "Your Bank Name",
+  bankName: "Taj Bank",
   accountName: "Rigar Kariya Gender Empowerment Foundation",
-  accountNumber: "0123456789",
+  accountNumber: "0013712452",
 };
 
 export default function DonateModal({ onClose }: { onClose: () => void }) {
@@ -68,10 +68,10 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
 
               <div className="rounded-xl p-5 text-left theme-input">
                 <p className="text-xs tracking-widest uppercase mb-1 theme-text-muted">Account Name</p>
-                <p className="text-sm font-semibold mb-4 theme-text-main">{ACCOUNT.accountName}</p>
+                <p className="text-sm font-semibold mb-2 theme-text-main">{ACCOUNT.accountName}</p>
 
                 <p className="text-xs tracking-widest uppercase mb-1 theme-text-muted">Bank Name</p>
-                <p className="text-sm font-semibold mb-4 theme-text-main">{ACCOUNT.bankName}</p>
+                <p className="text-sm font-semibold mb-2 theme-text-main">{ACCOUNT.bankName}</p>
 
                 <p className="text-xs tracking-widest uppercase mb-1 theme-text-muted">Account Number</p>
                 <div className="flex items-center justify-between gap-3">
@@ -95,22 +95,44 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
           ) : (
             <>
               <h2 className="font-oswald text-2xl tracking-[0.2em] uppercase mb-1 theme-text-main">Donate</h2>
-              <div className="mb-5 h-0.5 w-16 bg-[#58d98c]" />
-              <p className="text-sm mb-6 leading-relaxed theme-text-sub open-sans">
+              <div className="mb-4 h-0.5 w-16 bg-[#58d98c]" />
+
+              {/* Account details, front and center */}
+              <div className="mb-4 rounded-xl p-4 theme-input">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] tracking-widest uppercase theme-text-muted">{ACCOUNT.bankName}</p>
+                    <p className="font-oswald text-lg tracking-wide text-[#58d98c]">{ACCOUNT.accountNumber}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="shrink-0 rounded-full border border-[#58d98c] px-3 py-1.5 text-xs tracking-widest uppercase text-[#58d98c] hover:bg-[#58d98c] hover:text-[#13111e] transition-all bg-transparent cursor-pointer"
+                  >
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                </div>
+                <p className="mt-2 text-xs theme-text-muted">{ACCOUNT.accountName}</p>
+              </div>
+
+              <p className="text-sm mb-5 leading-relaxed theme-text-sub open-sans">
                 Every donation helps RKGEF reach more women and girls across Nigeria. Fill in your
-                details and we'll share our account information to complete the transfer.
+                details below and donate using the account information above.
               </p>
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+              <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-3">
                 {[
                   { label: "Full Name", key: "name", type: "text", placeholder: "Your full name" },
                   { label: "Email Address", key: "email", type: "email", placeholder: "your@email.com" },
                   { label: "State / Country", key: "country", type: "text", placeholder: "Where are you based?" },
+                  { label: "Amount (₦)", key: "amount", type: "number", placeholder: "e.g. 5000" },
                 ].map(({ label, key, type, placeholder }) => (
                   <div key={key}>
                     <label className="block text-xs tracking-widest uppercase mb-1 theme-text-muted">{label}</label>
                     <input
                       type={type}
                       required
+                      min={type === "number" ? 1 : undefined}
                       placeholder={placeholder}
                       value={form[key as keyof typeof form]}
                       onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
@@ -119,26 +141,11 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
                   </div>
                 ))}
 
-                <div>
-                  <label className="block text-xs tracking-widest uppercase mb-1 theme-text-muted">
-                    Donation Amount (₦)
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    min={1}
-                    placeholder="e.g. 5000"
-                    value={form.amount}
-                    onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
-                    className="w-full rounded-lg px-4 py-3 text-sm focus:outline-none transition-colors theme-input"
-                  />
-                </div>
-
                 <button
                   type="submit"
-                  className="mt-2 rounded-full bg-[#58d98c] py-3 font-bold tracking-[0.25em] text-sm text-[#13111e] uppercase hover:bg-[#3dbf76] active:scale-95 transition-all border-none cursor-pointer"
+                  className="col-span-2 mt-2 rounded-full bg-[#58d98c] px-8 py-3 text-sm font-bold tracking-widest uppercase hover:bg-[#3dbf76] transition-colors text-[#13111e] border-none cursor-pointer"
                 >
-                  Continue to Account Details
+                  Continue
                 </button>
               </form>
             </>
