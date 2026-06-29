@@ -594,8 +594,9 @@ function Programs() {
                 <h3 className="font-oswald text-lg uppercase tracking-wide mt-1 mb-2 theme-text-main">{p.title}</h3>
                 <div className="h-px w-10 mb-3 theme-divider" />
                 <p className="text-xs leading-relaxed mb-4 theme-text-sub open-sans">{p.desc.slice(0, 110)}…</p>
-                <button className="text-xs tracking-widest uppercase text-[#58d98c] hover:underline bg-transparent border-none cursor-pointer p-0">Learn More →</button>
-              </div>
+                {/* <button className="text-xs tracking-widest uppercase text-[#58d98c] hover:underline bg-transparent border-none cursor-pointer p-0">Learn More →</button>
+              */}
+              </div> 
             </motion.div>
           ))}
         </div>
