@@ -350,7 +350,7 @@ function Navbar({ onVolunteer, onDonate }: { onVolunteer: () => void; onDonate: 
 }
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
-function Hero({ onVolunteer }: { onVolunteer: () => void }) {
+function Hero({ onVolunteer, onDonate }: { onVolunteer: () => void; onDonate?: () => void }) {
   return (
     <section id="home" className="relative min-h-screen overflow-hidden flex items-center theme-hero">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -398,12 +398,10 @@ function Hero({ onVolunteer }: { onVolunteer: () => void }) {
               className="rounded-full bg-[#58d98c] px-8 py-4 text-sm font-bold tracking-[0.25em] uppercase text-[#13111e] transition-all hover:shadow-[0_0_30px_rgba(88,217,140,0.4)] hover:bg-[#3dbf76] border-none cursor-pointer">
               Join Our Mission
             </button>
-            <button
-              onClick={() => scrollTo("programs")}
-              className="rounded-full border px-8 py-4 text-sm tracking-[0.2em] uppercase transition-colors theme-ghost-btn bg-transparent cursor-pointer"
-            >
-              Our Programs
-            </button>
+            <button onClick={onDonate}
+            className="rounded-full bg-[#58d98c] px-10 py-4 font-bold tracking-[0.25em] text-sm uppercase text-[#13111e] hover:bg-[#3dbf76] transition-colors border-none cursor-pointer">
+            Donate Now
+          </button>
           </motion.div>
 
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={5}
@@ -1018,7 +1016,7 @@ export default function NGOWebsite() {
       </AnimatePresence>
 
       <Navbar onVolunteer={() => setShowModal(true)} onDonate={() => setShowDonateModal(true)}/>
-      <Hero onVolunteer={() => setShowModal(true)} />
+      <Hero onVolunteer={() => setShowModal(true)} onDonate={() => setShowDonateModal(true)}/>
       <About />
       <Programs />
       <Impact />
